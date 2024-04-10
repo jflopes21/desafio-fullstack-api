@@ -1,8 +1,8 @@
-import type { Knex } from "knex";
+import { Knex } from "knex";
 
 export async function up(knex: Knex) {
   return knex.schema.createTable("niveis", (table) => {
-    table.increments("id");
+    table.increments("id").primary();
     table.text("nivel").notNullable;
   });
 }
@@ -10,4 +10,3 @@ export async function up(knex: Knex) {
 export async function down(knex: Knex) {
   return knex.schema.dropTable("niveis");
 }
-

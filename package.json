@@ -6,7 +6,8 @@
   "scripts": {
     "start": "ts-node src/server.ts",
     "dev": "nodemon --exec ts-node src/server.ts",
-    "migrate":"knex migrate:latest"
+    "knex:migrate": "knex --knexfile knexfile.ts migrate:latest",
+    "knex:seed": "knex --knexfile knexfile.ts seed:run"
   },
   "keywords": [],
   "author": "",
