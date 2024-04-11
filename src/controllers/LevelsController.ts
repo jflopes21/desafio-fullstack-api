@@ -1,5 +1,5 @@
-import knex from "../database/connection";
 import { NextFunction, Request, Response } from "express";
+import knex from "../database/connection";
 import { AppError } from "../utils/AppError";
 
 class LevelsController {
@@ -28,7 +28,7 @@ class LevelsController {
 
   async index(request: Request, response: Response) {
     const levels = await knex("niveis").select("niveis.*");
-    if (!levels) {
+    if (levels.length === 0) {
       throw new AppError("Não há níveis cadastrados!", 404);
     }
     return response.json(levels);
@@ -44,7 +44,7 @@ class LevelsController {
 
     const level = await knex("niveis").where({id}).first();
     if (!level) {
-      throw new AppError("Nível informado não existe!");
+      throw new AppError("Nível informado não existe!", 400);
     }
 
     level.nivel = nivel ?? level.nivel;
@@ -63,12 +63,21 @@ class LevelsController {
 
     const level = await knex("niveis").where({id}).first();
     if (!level) {
-      throw new AppError("Nível informado não existe!");
+      throw new AppError("Nível informado não existe!", 400);
     }
+
+    const developer = await knex("desenvolvedores").where('nivelId', id).first();
+    if(developer){
+      throw new AppError("Não será possível excluir o nível pois há Desenvolvedores relacionados!", 400);
+    }
+
     const levelName = level.nivel;
     await knex("niveis").where({ id }).delete();
 
-    return response.json(`Nível ${levelName} Excluído com sucesso!`);
+    return response.json({
+      "status" : 204,
+      "message": `Nível ${levelName} Excluído com sucesso!`
+    });
   }
 
 }
