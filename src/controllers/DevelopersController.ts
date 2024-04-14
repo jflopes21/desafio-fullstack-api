@@ -34,12 +34,12 @@ class DevelopersController {
       .where({ nome })
       .first();
     if (isDeveloperExists) {
-      throw new AppError(`O Desenvolvedor ${nome} já está cadastrado!`, 400);
+      throw new AppError(`O Desenvolvedor(a) ${nome} já está cadastrado!`, 400);
     }
 
     const level = await knex("niveis").where('id', nivelId)
     if(level.length === 0){
-      throw new AppError(`O Nível informado para esse Desenvolvedor não existe!`, 400);
+      throw new AppError(`O Nível informado para esse Dev não existe!`, 400);
     }
 
     const age = this.calculateAge(datanascimento);
@@ -55,7 +55,7 @@ class DevelopersController {
 
     return response.json({
       status: 201,
-      message: `Desenvolvedor ${nome} criado com sucesso!`,
+      message: `Desenvolvedor(a) ${nome} criado com sucesso!`,
     });
   }
 
@@ -65,7 +65,7 @@ class DevelopersController {
 
     const developer = await knex("desenvolvedores").where({ id }).first();
     if (!developer) {
-      throw new AppError("Desenvolvedor informado não existe!", 400);
+      throw new AppError("Desenvolvedor(a) informado não existe!", 400);
     }
 
     developer.nome = nome ?? developer.nome;
@@ -80,7 +80,7 @@ class DevelopersController {
 
     return response.json({
       status: 200,
-      message: `Desenvolvedor ${developer.nome} editado com sucesso!`,
+      message: `Desenvolvedor(a) ${developer.nome} editado com sucesso!`,
     });
   }
 
@@ -89,14 +89,14 @@ class DevelopersController {
     const developer = await knex("desenvolvedores").where({ id }).first();
 
     if (!developer) {
-      throw new AppError(`Desenvolvedor ${id} não existe!`, 400);
+      throw new AppError(`Desenvolvedor(a) ${id} não existe!`, 400);
     }
 
     await knex("desenvolvedores").where({ id }).delete();
 
     return response.json({
       status: 204,
-      message: `Desenvolvedor ${developer.nome} removido com sucesso!`,
+      message: `Desenvolvedor(a) ${developer.nome} removido com sucesso!`,
     });
   }
 
