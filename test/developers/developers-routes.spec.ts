@@ -76,7 +76,7 @@ describe("developers route check", function () {
       });
   });
 
-  it("Should delete a level or return 400 if level doesn't exists", function (done) {
+  it("Should delete a developer or return 400 if developer doesn't exists", function (done) {
     let developerId: number = 49;
     request(app)
       .delete(`/api/desenvolvedores/${developerId}`)
