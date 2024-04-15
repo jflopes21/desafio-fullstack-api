@@ -18,12 +18,14 @@ class LevelsController {
     }
 
     await trx("niveis").insert({ nivel });
+    const createdLevelId = await trx("niveis").select("id").where("nivel", nivel).first();
     await trx.commit();
 
-    return response.json({
+    return response.status(201).json({
       "status": 201,
+      "id": createdLevelId.id,
       "message": `Nível ${nivel} cadastrado com sucesso!`
-    });
+    })
   }
 
   async index(request: Request, response: Response) {
@@ -74,7 +76,7 @@ class LevelsController {
     const levelName = level.nivel;
     await knex("niveis").where({ id }).delete();
 
-    return response.json({
+    return response.status(204).json({
       "status" : 204,
       "message": `Nível ${levelName} Excluído com sucesso!`
     });
