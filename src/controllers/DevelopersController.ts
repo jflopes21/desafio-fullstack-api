@@ -27,7 +27,7 @@ class DevelopersController {
     const { nome, hobby, nivelId, sexo, datanascimento } = request.body;
 
     if (!nome || !hobby || !nivelId || !sexo || !datanascimento) {
-      throw new AppError("O corpo da requisição está incorreto!", 400);
+      throw new AppError("É necessário informar todos os campos!", 400);
     }
 
     const isDeveloperExists = await knex("desenvolvedores")

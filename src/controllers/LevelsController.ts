@@ -6,7 +6,7 @@ class LevelsController {
   async create(request: Request, response: Response) {
     const { nivel } = request.body;
     if (!nivel) {
-      throw new AppError("O corpo da requisição está incorreto!", 400);
+      throw new AppError("O campo de nível não foi preenchido", 400);
     }
 
     const trx = await knex.transaction();
@@ -39,7 +39,7 @@ class LevelsController {
     const {nivel} = request.body;
 
     if (!nivel) {
-      throw new AppError("O corpo da requisição está incorreto!", 400);
+      throw new AppError("Não foi informado o novo valor do nível", 400);
     }
 
     const level = await knex("niveis").where({id}).first();
